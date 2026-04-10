@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile – SkillRank</title>
+    <meta name="description" content="Your SkillRank profile — view stats, badges, and quiz history." />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+    <div class="bg-blob blob-1" style="opacity:0.10"></div>
+    <div class="bg-blob blob-2" style="opacity:0.08"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">🏆</div>SkillRank
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="leaderboard.html" class="nav-link">Leaderboard</a>
+                <a href="profile.html" class="nav-link active">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div id="nav-avatar" class="nav-avatar">U</div>
+                <a href="quiz.html" class="btn btn-primary btn-sm">⚡ Take Quiz</a>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="leaderboard.html" class="nav-link">Leaderboard</a>
+        <a href="profile.html" class="nav-link active">Profile</a>
+    </div>
+
+    <div style="min-height:100vh;padding:100px 0 60px;position:relative;z-index:1">
+        <div class="container" style="max-width:1100px">
+
+            <!-- ── Profile Header ── -->
+            <div class="card anim-fade-in-up" style="margin-bottom:24px;padding:32px">
+                <div style="display:flex;align-items:center;gap:28px;flex-wrap:wrap">
+                    <!-- Avatar -->
+                    <div style="position:relative;flex-shrink:0">
+                        <div id="profile-avatar"
+                            style="width:100px;height:100px;border-radius:50%;background:var(--gradient-main);display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:800;border:4px solid rgba(124,58,237,0.4);box-shadow:var(--shadow-glow)">
+                            U</div>
+                        <div class="anim-pulse-shadow"
+                            style="position:absolute;inset:-4px;border-radius:50%;pointer-events:none;"></div>
+                    </div>
+
+                    <!-- Info -->
+                    <div style="flex:1;min-width:200px">
+                        <h1 id="profile-name" style="font-size:1.8rem;font-weight:800;font-family:var(--font-display)">
+                            Loading…</h1>
+                        <div id="profile-email" style="color:var(--text-secondary);font-size:0.9rem;margin-top:2px">
+                        </div>
+                        <div id="profile-joined" style="color:var(--text-muted);font-size:0.8rem;margin-top:4px">Joined
+                            —</div>
+                        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+                            <span class="badge badge-purple">🏅 Member</span>
+                            <span class="badge badge-cyan" id="prof-category-badge">🧠 Learner</span>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div style="display:flex;flex-direction:column;gap:10px;flex-shrink:0">
+                        <button id="edit-profile-btn" class="btn btn-secondary">✏️ Edit Profile</button>
+                        <button data-logout class="btn btn-ghost" style="color:var(--red)">🚪 Sign Out</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2" style="align-items:start;gap:24px">
+                <!-- LEFT COLUMN -->
+                <div style="display:flex;flex-direction:column;gap:24px">
+
+                    <!-- Stats with score circle -->
+                    <div class="card anim-fade-in-up delay-1">
+                        <h2 style="font-size:1rem;font-weight:700;margin-bottom:20px">📊 Performance Overview</h2>
+                        <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;justify-content:center">
+                            <!-- Score circle -->
+                            <div class="score-circle" style="width:130px;height:130px">
+                                <svg width="130" height="130" viewBox="0 0 160 160">
+                                    <circle class="sc-bg" cx="80" cy="80" r="70" />
+                                    <circle class="sc-fill" cx="80" cy="80" r="70" id="avg-score-circle"
+                                        stroke-dashoffset="440" />
+                                </svg>
+                                <div class="score-inner">
+                                    <div class="score-pct gradient-text" id="avg-score-text">—</div>
+                                    <div class="score-label">Avg Score</div>
+                                </div>
+                            </div>
+
+                            <!-- Stat grid -->
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;flex:1;min-width:180px">
+                                <div class="card" style="padding:14px;text-align:center">
+                                    <div style="font-size:1.5rem;font-weight:800;font-family:var(--font-display)"
+                                        id="prof-quizzes">—</div>
+                                    <div style="font-size:0.72rem;color:var(--text-secondary)">Quizzes Taken</div>
+                                </div>
+                                <div class="card" style="padding:14px;text-align:center">
+                                    <div style="font-size:1.5rem;font-weight:800;font-family:var(--font-display);color:var(--green)"
+                                        id="prof-best">—</div>
+                                    <div style="font-size:0.72rem;color:var(--text-secondary)">Best Score</div>
+                                </div>
+                                <div class="card" style="padding:14px;text-align:center">
+                                    <div style="font-size:1.5rem;font-weight:800;font-family:var(--font-display);color:var(--cyan)"
+                                        id="prof-avg">—</div>
+                                    <div style="font-size:0.72rem;color:var(--text-secondary)">Avg Score</div>
+                                </div>
+                                <div class="card" style="padding:14px;text-align:center">
+                                    <div style="font-size:1.5rem;font-weight:800;font-family:var(--font-display);color:var(--amber)"
+                                        id="prof-cats">—</div>
+                                    <div style="font-size:0.72rem;color:var(--text-secondary)">Categories</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category chart -->
+                    <div class="card anim-fade-in-up delay-2">
+                        <h2 style="font-size:1rem;font-weight:700;margin-bottom:16px">📈 Category Breakdown</h2>
+                        <div id="cat-chart">
+                            <div style="text-align:center;color:var(--text-secondary);padding:20px;font-size:0.875rem">
+                                No data yet. Take a quiz to see your breakdown.</div>
+                        </div>
+                    </div>
+
+                    <!-- Quick actions -->
+                    <div class="card anim-fade-in-up delay-3">
+                        <h2 style="font-size:1rem;font-weight:700;margin-bottom:16px">⚡ Quick Actions</h2>
+                        <div style="display:flex;flex-direction:column;gap:10px">
+                            <a href="quiz.html?cat=javascript" class="btn btn-secondary"
+                                style="justify-content:flex-start;gap:10px">⚡ JavaScript Quiz</a>
+                            <a href="quiz.html?cat=python" class="btn btn-secondary"
+                                style="justify-content:flex-start;gap:10px">🐍 Python Quiz</a>
+                            <a href="quiz.html?cat=general" class="btn btn-secondary"
+                                style="justify-content:flex-start;gap:10px">🧠 General Knowledge</a>
+                            <a href="leaderboard.html" class="btn btn-secondary"
+                                style="justify-content:flex-start;gap:10px">🏆 View Leaderboard</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT COLUMN -->
+                <div style="display:flex;flex-direction:column;gap:24px">
+
+                    <!-- Badges -->
+                    <div class="card anim-fade-in-up delay-1">
+                        <div class="flex-between mb-2">
+                            <h2 style="font-size:1rem;font-weight:700">🏅 Achievements</h2>
+                            <span class="badge badge-purple" id="badge-count">0 / 8</span>
+                        </div>
+                        <div id="badges-container" style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px">
+                        </div>
+                    </div>
+
+                    <!-- History table -->
+                    <div class="card anim-fade-in-up delay-2" style="overflow:hidden;padding:0">
+                        <div style="padding:20px 20px 0;display:flex;align-items:center;justify-content:space-between">
+                            <h2 style="font-size:1rem;font-weight:700">📋 Quiz History</h2>
+                            <span id="history-count" class="badge badge-cyan"></span>
+                        </div>
+                        <div class="table-wrapper" style="border:none;border-radius:0">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Category</th>
+                                        <th>Score</th>
+                                        <th>Correct</th>
+                                        <th>Time</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="history-body">
+                                    <tr>
+                                        <td colspan="6"
+                                            style="text-align:center;padding:32px;color:var(--text-secondary)">Loading…
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div><!-- /grid-2 -->
+
+        </div><!-- /container -->
+    </div>
+
+    <!-- ── Edit Profile Modal ── -->
+    <div id="edit-modal"
+        style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);z-index:9000;align-items:center;justify-content:center;padding:24px">
+        <div class="auth-card" style="max-width:420px;width:100%">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+                <h2 style="font-size:1.2rem;font-weight:700">✏️ Edit Profile</h2>
+                <button id="close-modal" class="btn-icon">✕</button>
+            </div>
+            <form id="edit-form" style="display:flex;flex-direction:column;gap:16px">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input id="edit-name" type="text" class="form-input" placeholder="Your name" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">✉️</span>
+                        <input id="edit-email" type="email" class="form-input" placeholder="your@email.com" />
+                    </div>
+                </div>
+                <div style="display:flex;gap:12px">
+                    <button type="button" id="close-modal-2" class="btn btn-secondary" style="flex:1">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="flex:1">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/main.js"></script>
+    <script src="js/profile.js"></script>
+    <script>
+        // Second close button alias
+        document.getElementById('close-modal-2')?.addEventListener('click', () => {
+            document.getElementById('edit-modal').style.display = 'none';
+        });
+        // Update badge count after render
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const earned = document.querySelectorAll('#badges-container .badge-green').length;
+                const el = document.getElementById('badge-count');
+                if (el) el.textContent = earned + ' / 8';
+                // History count
+                const rows = document.querySelectorAll('#history-body tr');
+                const countEl = document.getElementById('history-count');
+                if (countEl && rows.length && rows[0].cells.length > 1) countEl.textContent = rows.length + ' quizzes';
+            }, 200);
+        });
+    </script>
+</body>
+
+</html>

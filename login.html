@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In – SkillRank</title>
+    <meta name="description" content="Log in to your SkillRank account to take quizzes and view your scores." />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+    <div class="bg-blob blob-1"></div>
+    <div class="bg-blob blob-2"></div>
+
+    <!-- Back link -->
+    <a href="index.html"
+        style="position:fixed;top:24px;left:24px;z-index:100;display:flex;align-items:center;gap:6px;font-size:0.85rem;color:var(--text-secondary);transition:0.2s"
+        onmouseenter="this.style.color='var(--text-primary)'" onmouseleave="this.style.color='var(--text-secondary)'">
+        ← Back to Home
+    </a>
+
+    <div class="auth-page">
+        <div class="auth-card anim-scale-in">
+            <!-- Logo -->
+            <div class="auth-logo">
+                <div class="logo-icon flex-center" style="background:var(--gradient-main)">🏆</div>
+                <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:700">SkillRank</div>
+            </div>
+
+            <h1 class="auth-title">Welcome back 👋</h1>
+            <p class="auth-sub">Sign in to continue your learning streak</p>
+
+            <!-- Demo login buttons -->
+            <div style="display:flex;gap:8px;margin:20px 0">
+                <button data-demo-login data-email="alex@demo.com" class="btn btn-secondary btn-sm"
+                    style="flex:1;font-size:0.75rem">
+                    Demo: Alex
+                </button>
+                <button data-demo-login data-email="priya@demo.com" class="btn btn-secondary btn-sm"
+                    style="flex:1;font-size:0.75rem">
+                    Demo: Priya
+                </button>
+            </div>
+
+            <div class="auth-divider">or sign in with email</div>
+
+            <form id="login-form" novalidate style="display:flex;flex-direction:column;gap:18px">
+                <!-- Email -->
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">✉️</span>
+                        <input id="email" type="email" class="form-input" placeholder="you@example.com"
+                            autocomplete="email" />
+                    </div>
+                    <span class="form-error" id="email-error"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input id="password" type="password" class="form-input" placeholder="Enter password"
+                            autocomplete="current-password" />
+                        <button type="button" class="input-toggle" id="toggle-password">👁️</button>
+                    </div>
+                    <span class="form-error" id="pass-error"></span>
+                </div>
+
+                <div style="display:flex;justify-content:flex-end">
+                    <a href="#" style="font-size:0.8rem;color:var(--purple-light)">Forgot password?</a>
+                </div>
+
+                <button type="submit" id="login-btn" class="btn btn-primary btn-full btn-lg" style="margin-top:4px">
+                    Sign In
+                </button>
+            </form>
+
+            <div class="auth-switch mt-3">
+                Don't have an account? <a href="register.html">Create one free →</a>
+            </div>
+
+            <!-- Stats strip -->
+            <div
+                style="display:flex;justify-content:center;gap:28px;margin-top:28px;padding-top:20px;border-top:1px solid var(--glass-border)">
+                <div class="text-center">
+                    <div style="font-size:1.1rem;font-weight:700;font-family:var(--font-display)">2.5K+</div>
+                    <div style="font-size:0.7rem;color:var(--text-secondary)">Users</div>
+                </div>
+                <div class="text-center">
+                    <div style="font-size:1.1rem;font-weight:700;font-family:var(--font-display)">10K+</div>
+                    <div style="font-size:0.7rem;color:var(--text-secondary)">Quizzes</div>
+                </div>
+                <div class="text-center">
+                    <div style="font-size:1.1rem;font-weight:700;font-family:var(--font-display)">5</div>
+                    <div style="font-size:0.7rem;color:var(--text-secondary)">Categories</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

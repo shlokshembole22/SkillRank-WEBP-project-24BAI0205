@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard – SkillRank</title>
+    <meta name="description"
+        content="Your SkillRank dashboard — stats, recent quizzes, weekly performance, and leaderboard preview." />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <style>
+        /* ── Scoped layout reset — override global dash layout ── */
+        body {
+            overflow-x: hidden;
+        }
+
+        .page-wrap {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .db-sidebar {
+            width: 220px;
+            flex-shrink: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            background: rgba(10, 10, 15, 0.92);
+            border-right: 1px solid var(--glass-border);
+            backdrop-filter: blur(20px);
+            display: flex;
+            flex-direction: column;
+            padding: 0 14px;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        /* Main area */
+        .db-main {
+            margin-left: 220px;
+            flex: 1;
+            min-width: 0;
+            /* prevent overflow */
+            padding: 36px 40px 60px;
+        }
+
+        /* Stat cards — icon + text side by side */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 32px;
+        }
+
+        .scard {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 20px 18px;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(12px);
+            transition: var(--transition);
+        }
+
+        .scard:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .scard-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .scard-val {
+            font-size: 1.65rem;
+            font-weight: 800;
+            font-family: var(--font-display);
+            line-height: 1;
+        }
+
+        .scard-lbl {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            margin-top: 3px;
+        }
+
+        /* Category cards */
+        .cats-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 14px;
+            margin-bottom: 32px;
+        }
+
+        .ccat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 22px 10px 18px;
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            gap: 8px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .ccat::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-main);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--transition);
+        }
+
+        .ccat:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+            border-color: rgba(124, 58, 237, 0.35);
+        }
+
+        .ccat:hover::after {
+            transform: scaleX(1);
+        }
+
+        .ccat-icon {
+            font-size: 2rem;
+        }
+
+        .ccat-name {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .ccat-meta {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Mid section */
+        .mid-row {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .right-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Recent quiz row */
+        .qrow {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 9px;
+            transition: 0.2s;
+        }
+
+        .qrow:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .qrow:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 1100px) {
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cats-row {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .mid-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .db-sidebar {
+                display: none;
+            }
+
+            .db-main {
+                margin-left: 0;
+                padding: 20px 16px 80px;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .cats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-blob blob-1" style="opacity:0.07"></div>
+    <div class="bg-blob blob-2" style="opacity:0.05"></div>
+
+    <div class="page-wrap">
+
+        <!-- ═══ SIDEBAR ═══ -->
+        <aside class="db-sidebar">
+            <div class="sidebar-logo">
+                <div class="logo-icon"
+                    style="background:var(--gradient-main);width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:0.95rem">
+                    🏆</div>
+                SkillRank
+            </div>
+
+            <div class="sidebar-section">Main</div>
+            <a href="dashboard.html" class="sidebar-link active"><span class="icon">📊</span> Dashboard</a>
+            <a href="leaderboard.html" class="sidebar-link"><span class="icon">🏆</span> Leaderboard</a>
+            <a href="profile.html" class="sidebar-link"><span class="icon">👤</span> Profile</a>
+
+            <div class="sidebar-section">Quizzes</div>
+            <a href="quiz.html?cat=javascript" class="sidebar-link"><span class="icon">⚡</span> JavaScript</a>
+            <a href="quiz.html?cat=python" class="sidebar-link"><span class="icon">🐍</span> Python</a>
+            <a href="quiz.html?cat=html" class="sidebar-link"><span class="icon">🌐</span> HTML</a>
+            <a href="quiz.html?cat=css" class="sidebar-link"><span class="icon">🎨</span> CSS</a>
+            <a href="quiz.html?cat=general" class="sidebar-link"><span class="icon">🧠</span> General</a>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user">
+                    <div class="avatar" id="dash-avatar"
+                        style="width:36px;height:36px;font-size:0.9rem;background:var(--gradient-main)">U</div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name" id="sidebar-user-name">Loading…</div>
+                        <div class="sidebar-user-role" id="sidebar-user-role">member</div>
+                    </div>
+                </div>
+                <button data-logout class="btn btn-ghost btn-full mt-2"
+                    style="justify-content:flex-start;gap:8px;color:var(--text-secondary)">
+                    🚪 Sign Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- ═══ MAIN CONTENT ═══ -->
+        <main class="db-main">
+
+            <!-- Header -->
+            <div class="flex-between anim-fade-in-down" style="margin-bottom:32px;flex-wrap:wrap;gap:12px">
+                <div>
+                    <div style="font-size:0.9rem;color:var(--text-secondary);margin-bottom:2px" id="greeting">Good
+                        afternoon,</div>
+                    <h1 style="font-size:2rem;font-weight:800;font-family:var(--font-display);line-height:1.15"
+                        id="dash-name">User</h1>
+                    <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px" id="dash-joined"></div>
+                </div>
+                <a href="quiz.html" class="btn btn-primary btn-lg anim-pulse-shadow">⚡ Start a Quiz</a>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-row anim-fade-in-up delay-1">
+                <div class="scard">
+                    <div class="scard-icon" style="background:rgba(124,58,237,0.15)">📝</div>
+                    <div>
+                        <div class="scard-val gradient-text" id="stat-quizzes">—</div>
+                        <div class="scard-lbl">Quizzes Taken</div>
+                    </div>
+                </div>
+                <div class="scard">
+                    <div class="scard-icon" style="background:rgba(6,182,212,0.15)">📊</div>
+                    <div>
+                        <div class="scard-val gradient-text" id="stat-avg">—</div>
+                        <div class="scard-lbl">Average Score</div>
+                    </div>
+                </div>
+                <div class="scard">
+                    <div class="scard-icon" style="background:rgba(16,185,129,0.15)">🏆</div>
+                    <div>
+                        <div class="scard-val gradient-text" id="stat-best">—</div>
+                        <div class="scard-lbl">Best Score</div>
+                    </div>
+                </div>
+                <div class="scard">
+                    <div class="scard-icon" style="background:rgba(245,158,11,0.15)">🔥</div>
+                    <div>
+                        <div class="scard-val gradient-text" id="stat-streak">—</div>
+                        <div class="scard-lbl">Practice Streak</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="anim-fade-in-up delay-2" style="margin-bottom:32px">
+                <div class="flex-between" style="margin-bottom:14px">
+                    <h2 style="font-size:1.05rem;font-weight:700">🎯 Pick a Quiz Category</h2>
+                </div>
+                <div class="cats-row">
+                    <a href="quiz.html?cat=javascript" class="ccat">
+                        <div class="ccat-icon">⚡</div>
+                        <div class="ccat-name">JavaScript</div>
+                        <div class="ccat-meta">10 Qs · 20s each</div>
+                        <span class="badge badge-amber" style="font-size:0.62rem;margin-top:2px">Popular</span>
+                    </a>
+                    <a href="quiz.html?cat=python" class="ccat">
+                        <div class="ccat-icon">🐍</div>
+                        <div class="ccat-name">Python</div>
+                        <div class="ccat-meta">10 Qs · 20s each</div>
+                        <span class="badge badge-green" style="font-size:0.62rem;margin-top:2px">Trending</span>
+                    </a>
+                    <a href="quiz.html?cat=html" class="ccat">
+                        <div class="ccat-icon">🌐</div>
+                        <div class="ccat-name">HTML</div>
+                        <div class="ccat-meta">10 Qs · 20s each</div>
+                        <span class="badge badge-cyan" style="font-size:0.62rem;margin-top:2px">Beginner</span>
+                    </a>
+                    <a href="quiz.html?cat=css" class="ccat">
+                        <div class="ccat-icon">🎨</div>
+                        <div class="ccat-name">CSS</div>
+                        <div class="ccat-meta">10 Qs · 20s each</div>
+                        <span style="height:20px;margin-top:2px"></span>
+                    </a>
+                    <a href="quiz.html?cat=general" class="ccat">
+                        <div class="ccat-icon">🧠</div>
+                        <div class="ccat-name">General</div>
+                        <div class="ccat-meta">10 Qs · 20s each</div>
+                        <span class="badge badge-purple" style="font-size:0.62rem;margin-top:2px">CS Concepts</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mid: Recent + Chart/Leaderboard -->
+            <div class="mid-row anim-fade-in-up delay-3">
+
+                <!-- Left: Recent quizzes -->
+                <div>
+                    <div class="flex-between" style="margin-bottom:14px">
+                        <h2 style="font-size:1.05rem;font-weight:700">📋 Recent Quizzes</h2>
+                        <a href="profile.html" class="btn btn-ghost btn-sm">View All →</a>
+                    </div>
+                    <div id="recent-history"></div>
+                </div>
+
+                <!-- Right: Chart + Leaderboard -->
+                <div class="right-col">
+                    <div class="card">
+                        <div class="flex-between" style="margin-bottom:14px">
+                            <h2 style="font-size:1rem;font-weight:700">📈 Weekly Activity</h2>
+                            <span class="badge badge-purple">Last 7 days</span>
+                        </div>
+                        <div id="weekly-chart"></div>
+                    </div>
+                    <div class="card">
+                        <div class="flex-between" style="margin-bottom:12px">
+                            <h2 style="font-size:1rem;font-weight:700">🏆 Top Players</h2>
+                            <a href="leaderboard.html" class="btn btn-ghost btn-sm">Full Board →</a>
+                        </div>
+                        <div id="lb-preview"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+    </div><!-- /page-wrap -->
+
+    <!-- Mobile bottom nav -->
+    <div id="mob-nav"
+        style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(10,10,15,0.97);border-top:1px solid var(--glass-border);padding:10px 20px;justify-content:space-around;z-index:200">
+        <a href="dashboard.html"
+            style="display:flex;flex-direction:column;align-items:center;gap:2px;font-size:0.62rem;color:var(--purple-light)"><span
+                style="font-size:1.25rem">📊</span>Home</a>
+        <a href="leaderboard.html"
+            style="display:flex;flex-direction:column;align-items:center;gap:2px;font-size:0.62rem;color:var(--text-secondary)"><span
+                style="font-size:1.25rem">🏆</span>Ranks</a>
+        <a href="quiz.html" style="display:flex;flex-direction:column;align-items:center;gap:2px;font-size:0.62rem">
+            <div
+                style="width:46px;height:46px;border-radius:50%;background:var(--gradient-main);display:flex;align-items:center;justify-content:center;font-size:1.15rem">
+                ⚡</div>
+        </a>
+        <a href="profile.html"
+            style="display:flex;flex-direction:column;align-items:center;gap:2px;font-size:0.62rem;color:var(--text-secondary)"><span
+                style="font-size:1.25rem">👤</span>Profile</a>
+        <button data-logout
+            style="background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:0.62rem;color:var(--text-secondary)"><span
+                style="font-size:1.25rem">🚪</span>Out</button>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/main.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script>
+        if (window.innerWidth <= 768) {
+            document.getElementById('mob-nav').style.display = 'flex';
+        }
+    </script>
+</body>
+
+</html>

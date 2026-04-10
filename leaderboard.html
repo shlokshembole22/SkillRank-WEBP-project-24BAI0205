@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard – SkillRank</title>
+    <meta name="description"
+        content="Global quiz leaderboard on SkillRank — see top performers and compare your ranking." />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+    <div class="bg-blob blob-1" style="opacity:0.1"></div>
+    <div class="bg-blob blob-2" style="opacity:0.08"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-logo">
+                <div class="logo-icon">🏆</div>SkillRank
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="leaderboard.html" class="nav-link active">Leaderboard</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+            </div>
+            <div class="nav-actions">
+                <div id="nav-avatar" class="nav-avatar">U</div>
+                <a href="quiz.html" class="btn btn-primary btn-sm">⚡ Take Quiz</a>
+                <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="leaderboard.html" class="nav-link active">Leaderboard</a>
+        <a href="profile.html" class="nav-link">Profile</a>
+    </div>
+
+    <div class="page-header">
+        <div class="container text-center">
+            <div class="badge badge-amber anim-fade-in-down" style="margin-bottom:16px;font-size:0.85rem">🏆 Global
+                Rankings</div>
+            <h1 class="section-title anim-fade-in-up" style="font-size:2.5rem">Leaderboard</h1>
+            <p class="section-sub anim-fade-in-up delay-1">See how you stack up against the best in the community.</p>
+        </div>
+    </div>
+
+    <div class="container" style="padding-bottom:80px">
+
+        <!-- Podium -->
+        <div class="card mb-3 anim-scale-in" style="padding:0 24px 24px">
+            <div class="podium" id="podium-wrap">
+                <div class="podium-item podium-2" id="podium-2"></div>
+                <div class="podium-item podium-1" id="podium-1"></div>
+                <div class="podium-item podium-3" id="podium-3"></div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="flex-between mb-3 anim-fade-in-up" style="flex-wrap:wrap;gap:12px">
+            <div class="tags">
+                <button class="tag active" data-cat-filter="all">🌐 All</button>
+                <button class="tag" data-cat-filter="javascript">⚡ JavaScript</button>
+                <button class="tag" data-cat-filter="python">🐍 Python</button>
+                <button class="tag" data-cat-filter="html">🌐 HTML</button>
+                <button class="tag" data-cat-filter="css">🎨 CSS</button>
+                <button class="tag" data-cat-filter="general">🧠 General</button>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+                <input id="lb-search" type="text" class="form-input" placeholder="🔍 Search player…"
+                    style="width:180px;padding:8px 14px;font-size:0.85rem" />
+                <select id="sort-select" class="form-select" style="width:160px;padding:8px 12px;font-size:0.85rem">
+                    <option value="score">Sort by Avg Score</option>
+                    <option value="quizzes">Sort by Quizzes</option>
+                    <option value="best">Sort by Best Score</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrapper anim-fade-in-up delay-2">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="text-align:center;width:60px">Rank</th>
+                        <th>Player</th>
+                        <th>Avg Score</th>
+                        <th>Quizzes</th>
+                        <th>Best</th>
+                        <th>Badges</th>
+                    </tr>
+                </thead>
+                <tbody id="lb-table-body">
+                    <tr>
+                        <td colspan="6" style="text-align:center;padding:32px;color:var(--text-secondary)">Loading…</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Your rank card -->
+        <div class="card mt-3 anim-fade-in-up delay-4" id="your-rank-card"
+            style="display:none;border-color:rgba(124,58,237,0.3)">
+            <div style="font-size:0.85rem;color:var(--text-secondary);margin-bottom:4px">📍 Your Position</div>
+            <div id="your-rank-info"></div>
+        </div>
+
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/main.js"></script>
+    <script src="js/leaderboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Show current user's rank
+            const user = SR.getCurrentUser();
+            if (user) {
+                const users = JSON.parse(localStorage.getItem('skillrank_users') || '[]')
+                    .sort((a, b) => (b.avgScore || 0) - (a.avgScore || 0));
+                const rank = users.findIndex(u => u.id === user.id) + 1;
+                if (rank > 0) {
+                    document.getElementById('your-rank-card').style.display = 'block';
+                    document.getElementById('your-rank-info').innerHTML = `
+            <span style="font-size:1.2rem;font-weight:800;font-family:var(--font-display);color:var(--purple-light)">#${rank}</span>
+            <span style="color:var(--text-secondary);font-size:0.875rem"> of ${users.length} players</span>
+            ${rank === 1 ? '<span class="badge badge-amber" style="margin-left:8px">👑 #1 Champion</span>' : ''}
+          `;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

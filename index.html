@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkillRank – Quiz Platform | Level Up Your Knowledge</title>
+  <meta name="description" content="SkillRank is a competitive quiz platform. Take timed quizzes, track your scores, climb the leaderboard, and master new skills."/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/animations.css"/>
+</head>
+<body>
+  <!-- Background blobs -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">
+        <div class="logo-icon">🏆</div>
+        SkillRank
+      </a>
+      <div class="nav-links">
+        <a href="index.html"       class="nav-link active">Home</a>
+        <a href="leaderboard.html" class="nav-link">Leaderboard</a>
+        <a href="dashboard.html"   class="nav-link">Dashboard</a>
+      </div>
+      <div class="nav-actions">
+        <a href="login.html"    class="btn btn-secondary btn-sm">Log In</a>
+        <a href="register.html" class="btn btn-primary  btn-sm">Get Started</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="index.html"       class="nav-link">Home</a>
+    <a href="leaderboard.html" class="nav-link">Leaderboard</a>
+    <a href="dashboard.html"   class="nav-link">Dashboard</a>
+    <div style="display:flex;gap:10px;margin-top:8px">
+      <a href="login.html"    class="btn btn-secondary btn-sm" style="flex:1">Log In</a>
+      <a href="register.html" class="btn btn-primary  btn-sm" style="flex:1">Sign Up</a>
+    </div>
+  </div>
+
+  <main>
+    <!-- ═══ HERO ═══ -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <!-- Left -->
+          <div>
+            <div class="hero-label anim-fade-in-down">
+              <span class="badge badge-purple">🚀 New</span>
+              <span style="font-size:0.85rem;color:var(--text-secondary)">50+ questions across 5 categories</span>
+            </div>
+            <h1 class="hero-title anim-fade-in-up delay-1">
+              Master Skills.<br/>
+              <span class="gradient-text">Rank Higher.</span><br/>
+              Win Every Day.
+            </h1>
+            <p class="hero-desc anim-fade-in-up delay-2">
+              Take timed quizzes, track your progress, compete on global leaderboards, and unlock badges as you grow. The smartest way to level up your coding knowledge.
+            </p>
+            <div class="hero-actions anim-fade-in-up delay-3">
+              <a href="register.html" class="btn btn-primary btn-lg anim-pulse-shadow">
+                ⚡ Start Quiz Free
+              </a>
+              <a href="leaderboard.html" class="btn btn-secondary btn-lg">
+                🏆 View Leaderboard
+              </a>
+            </div>
+            <div class="hero-stats anim-fade-in-up delay-5">
+              <div>
+                <div class="hero-stat-val gradient-text" data-counter data-target="10000" data-suffix="+">0</div>
+                <div class="hero-stat-label">Quizzes Taken</div>
+              </div>
+              <div>
+                <div class="hero-stat-val gradient-text" data-counter data-target="2500" data-suffix="+">0</div>
+                <div class="hero-stat-label">Active Users</div>
+              </div>
+              <div>
+                <div class="hero-stat-val gradient-text" data-counter data-target="50" data-suffix="+">0</div>
+                <div class="hero-stat-label">Questions</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Visual -->
+          <div class="hero-visual anim-fade-in-right delay-3">
+            <div style="position:relative;max-width:440px;margin:0 auto">
+              <!-- Main card -->
+              <div class="main-hero-card" style="border-color:rgba(124,58,237,0.3)">
+                <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:20px">
+                  <div>
+                    <div style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:4px">Question 7 of 10 · JavaScript</div>
+                    <div class="progress-bar" style="width:200px"><div class="progress-fill" style="width:70%"></div></div>
+                  </div>
+                  <div class="timer-ring" style="width:60px;height:60px">
+                    <svg width="60" height="60" viewBox="0 0 60 60">
+                      <circle class="ring-bg"   cx="30" cy="30" r="24" stroke-width="4"/>
+                      <circle class="ring-fill"  cx="30" cy="30" r="24" stroke-width="4" stroke-dasharray="151" stroke-dashoffset="68" style="stroke:var(--cyan)"/>
+                    </svg>
+                    <div class="timer-text"><span style="font-size:0.9rem;font-weight:700">13</span></div>
+                  </div>
+                </div>
+                <div style="font-weight:600;margin-bottom:16px;font-size:0.95rem">What does the <code style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px">typeof</code> operator return for <code style="background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px">null</code>?</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);border-radius:10px;font-size:0.85rem;display:flex;align-items:center;gap:10px">
+                    <span style="width:26px;height:26px;border-radius:50%;background:var(--glass);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700">A</span>"null"
+                  </div>
+                  <div style="padding:10px 14px;background:rgba(124,58,237,0.18);border:1px solid var(--purple-light);border-radius:10px;font-size:0.85rem;display:flex;align-items:center;gap:10px">
+                    <span style="width:26px;height:26px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700">B</span>"object" ✓
+                  </div>
+                  <div style="padding:10px 14px;background:rgba(255,255,255,0.04);border:1px solid var(--glass-border);border-radius:10px;font-size:0.85rem;display:flex;align-items:center;gap:10px">
+                    <span style="width:26px;height:26px;border-radius:50%;background:var(--glass);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700">C</span>"undefined"
+                  </div>
+                </div>
+              </div>
+
+              <!-- Floating cards -->
+              <div class="floating-card" style="top:-30px;right:-30px;min-width:140px;animation:float 4s ease-in-out infinite">
+                <div style="font-size:0.7rem;color:var(--text-secondary)">Your Score</div>
+                <div style="font-size:1.8rem;font-weight:800;font-family:var(--font-display);color:var(--green)">92%</div>
+                <div style="font-size:0.7rem;color:var(--green)">↑ Top 5%</div>
+              </div>
+              <div class="floating-card" style="bottom:-20px;left:-20px;min-width:160px;animation:float 4s ease-in-out -2s infinite">
+                <div style="font-size:0.75rem;font-weight:600;margin-bottom:6px">🏆 Leaderboard</div>
+                <div style="font-size:0.75rem;color:var(--text-secondary)">#1 Alex J. · 3780</div>
+                <div style="font-size:0.75rem;color:var(--text-secondary)">#2 Priya S. · 3010</div>
+                <div style="font-size:0.75rem;color:var(--purple-light)">#3 You · 2100</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ FEATURES ═══ -->
+    <section class="section" style="background:var(--bg-secondary);border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border)">
+      <div class="container">
+        <div class="text-center mb-3 reveal">
+          <h2 class="section-title">Everything You Need to <span class="gradient-text">Level Up</span></h2>
+          <p class="section-sub">A complete platform for skill assessment and continuous learning.</p>
+        </div>
+        <div class="grid-3 mt-4">
+          <div class="card reveal delay-1">
+            <div class="feature-item">
+              <div class="feature-icon" style="background:rgba(124,58,237,0.15)">⚡</div>
+              <div>
+                <h3 style="font-size:1.05rem;margin-bottom:6px">Timed Quizzes</h3>
+                <p style="font-size:0.875rem;color:var(--text-secondary)">20-second countdown per question keeps you sharp. Auto-advances to maintain pace and simulate real-world pressure.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card reveal delay-2">
+            <div class="feature-item">
+              <div class="feature-icon" style="background:rgba(6,182,212,0.15)">📊</div>
+              <div>
+                <h3 style="font-size:1.05rem;margin-bottom:6px">Score Tracking</h3>
+                <p style="font-size:0.875rem;color:var(--text-secondary)">Detailed breakdown of every quiz. Track your average score, best performance, and improvement over time.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card reveal delay-3">
+            <div class="feature-item">
+              <div class="feature-icon" style="background:rgba(245,158,11,0.15)">🏆</div>
+              <div>
+                <h3 style="font-size:1.05rem;margin-bottom:6px">Leaderboards</h3>
+                <p style="font-size:0.875rem;color:var(--text-secondary)">Compete globally or by category. Discover where you stand among peers with real-time rankings and a podium display.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card reveal delay-4">
+            <div class="feature-item">
+              <div class="feature-icon" style="background:rgba(16,185,129,0.15)">🎯</div>
+              <div>
+                <h3 style="font-size:1.05rem;margin-bottom:6px">Multiple Categories</h3>
+                <p style="font-size:0.875rem;color:var(--text-secondary)">JavaScript, Python, HTML, CSS, and General Knowledge. Filter leaderboards by category to find your specialty.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card reveal delay-5">
+            <div class="feature-item">
+              <div class="feature-icon" style="background:rgba(236,72,153,0.15)">🔥</div>
+              <div>
+                <h3 style="font-size:1.05rem;margin-bottom:6px">Streak System</h3>
+                <p style="font-size:0.875rem;color:var(--text-secondary)">Build daily practice habits. Consecutive-day streaks are tracked and rewarded with special badges.</p>
+              </div>
+            </div>
+          </div>
+          <div class="card reveal delay-6">
+            <div class="feature-item">
+              <div class="feature-icon" style="background:rgba(124,58,237,0.15)">🏅</div>
+              <div>
+                <h3 style="font-size:1.05rem;margin-bottom:6px">Badge Rewards</h3>
+                <p style="font-size:0.875rem;color:var(--text-secondary)">Unlock 8 achievement badges — from First Win to Perfect Score. Show off your accomplishments on your profile.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CATEGORIES ═══ -->
+    <section class="section">
+      <div class="container">
+        <div class="text-center mb-3 reveal">
+          <h2 class="section-title">5 Quiz <span class="gradient-text">Categories</span></h2>
+          <p class="section-sub">Pick your battlefield and start earning points.</p>
+        </div>
+        <div class="grid-3 mt-4 reveal">
+          <a href="quiz.html?cat=javascript" class="quiz-card">
+            <div class="quiz-card-icon">⚡</div>
+            <div class="quiz-card-title">JavaScript</div>
+            <div class="quiz-card-meta">
+              <span>10 questions</span>·<span>20s per Q</span>
+            </div>
+            <div class="mt-2"><span class="badge badge-amber">Popular</span></div>
+          </a>
+          <a href="quiz.html?cat=python" class="quiz-card">
+            <div class="quiz-card-icon">🐍</div>
+            <div class="quiz-card-title">Python</div>
+            <div class="quiz-card-meta"><span>10 questions</span>·<span>20s per Q</span></div>
+            <div class="mt-2"><span class="badge badge-green">Trending</span></div>
+          </a>
+          <a href="quiz.html?cat=html" class="quiz-card">
+            <div class="quiz-card-icon">🌐</div>
+            <div class="quiz-card-title">HTML</div>
+            <div class="quiz-card-meta"><span>10 questions</span>·<span>20s per Q</span></div>
+            <div class="mt-2"><span class="badge badge-cyan">Beginner Friendly</span></div>
+          </a>
+          <a href="quiz.html?cat=css" class="quiz-card">
+            <div class="quiz-card-icon">🎨</div>
+            <div class="quiz-card-title">CSS</div>
+            <div class="quiz-card-meta"><span>10 questions</span>·<span>20s per Q</span></div>
+          </a>
+          <a href="quiz.html?cat=general" class="quiz-card">
+            <div class="quiz-card-icon">🧠</div>
+            <div class="quiz-card-title">General Knowledge</div>
+            <div class="quiz-card-meta"><span>10 questions</span>·<span>20s per Q</span></div>
+            <div class="mt-2"><span class="badge badge-purple">CS Concepts</span></div>
+          </a>
+          <div class="quiz-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0.5;cursor:not-allowed">
+            <div class="quiz-card-icon">🔒</div>
+            <div class="quiz-card-title" style="text-align:center">More Coming Soon</div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);text-align:center;margin-top:4px">Stay tuned!</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ HOW IT WORKS ═══ -->
+    <section class="section" style="background:var(--bg-secondary);border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border)">
+      <div class="container">
+        <div class="text-center mb-3 reveal">
+          <h2 class="section-title">How It <span class="gradient-text">Works</span></h2>
+        </div>
+        <div class="grid-4 mt-4">
+          <div class="text-center reveal delay-1">
+            <div style="width:64px;height:64px;border-radius:var(--radius-lg);background:var(--gradient-main);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 16px;box-shadow:var(--shadow-glow)">1</div>
+            <h3 style="font-size:1rem;margin-bottom:6px">Create Account</h3>
+            <p style="font-size:0.85rem;color:var(--text-secondary)">Sign up in seconds. No credit card required.</p>
+          </div>
+          <div class="text-center reveal delay-2">
+            <div style="width:64px;height:64px;border-radius:var(--radius-lg);background:var(--gradient-main);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 16px;box-shadow:var(--shadow-glow)">2</div>
+            <h3 style="font-size:1rem;margin-bottom:6px">Pick a Category</h3>
+            <p style="font-size:0.85rem;color:var(--text-secondary)">Choose from 5 tech categories.</p>
+          </div>
+          <div class="text-center reveal delay-3">
+            <div style="width:64px;height:64px;border-radius:var(--radius-lg);background:var(--gradient-main);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 16px;box-shadow:var(--shadow-glow)">3</div>
+            <h3 style="font-size:1rem;margin-bottom:6px">Take the Quiz</h3>
+            <p style="font-size:0.85rem;color:var(--text-secondary)">Answer 10 timed questions to earn your score.</p>
+          </div>
+          <div class="text-center reveal delay-4">
+            <div style="width:64px;height:64px;border-radius:var(--radius-lg);background:var(--gradient-main);display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin:0 auto 16px;box-shadow:var(--shadow-glow)">4</div>
+            <h3 style="font-size:1rem;margin-bottom:6px">Climb the Ranks</h3>
+            <p style="font-size:0.85rem;color:var(--text-secondary)">See your position on the global leaderboard.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ CTA ═══ -->
+    <section class="section cta-section">
+      <div class="container text-center reveal">
+        <h2 style="font-size:2.5rem;font-weight:900;margin-bottom:16px">Ready to prove your <span class="gradient-text">skill?</span></h2>
+        <p style="color:var(--text-secondary);font-size:1.05rem;max-width:500px;margin:0 auto 32px">Join thousands of developers testing their knowledge daily on SkillRank.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <a href="register.html" class="btn btn-primary btn-lg">🚀 Create Free Account</a>
+          <a href="login.html"    class="btn btn-secondary btn-lg">Sign In</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo" style="margin-bottom:12px">
+            <div class="logo-icon">🏆</div> SkillRank
+          </div>
+          <p>A web-based competitive quiz platform for developers. Track scores, compete, and grow every day.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Platform</div>
+          <div class="footer-links">
+            <a href="dashboard.html"   class="footer-link">Dashboard</a>
+            <a href="leaderboard.html" class="footer-link">Leaderboard</a>
+            <a href="profile.html"     class="footer-link">Profile</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Quizzes</div>
+          <div class="footer-links">
+            <a href="quiz.html?cat=javascript" class="footer-link">JavaScript</a>
+            <a href="quiz.html?cat=python"     class="footer-link">Python</a>
+            <a href="quiz.html?cat=html"       class="footer-link">HTML</a>
+            <a href="quiz.html?cat=css"        class="footer-link">CSS</a>
+            <a href="quiz.html?cat=general"    class="footer-link">General</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-col-title">Account</div>
+          <div class="footer-links">
+            <a href="login.html"    class="footer-link">Log In</a>
+            <a href="register.html" class="footer-link">Register</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="footer-copy">© 2026 SkillRank. Built for WEBP Project.</span>
+        <div class="social-links">
+          <a href="#" class="social-link">🐙</a>
+          <a href="#" class="social-link">🐦</a>
+          <a href="#" class="social-link">💼</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz – SkillRank</title>
+    <meta name="description" content="Take a timed quiz on SkillRank and earn your score." />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+    <div class="bg-blob blob-1" style="opacity:0.1"></div>
+    <div class="bg-blob blob-2" style="opacity:0.08"></div>
+
+    <!-- Top bar -->
+    <div
+        style="position:fixed;top:0;left:0;right:0;height:56px;background:rgba(10,10,15,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);z-index:100;display:flex;align-items:center;padding:0 24px;gap:16px">
+        <a href="dashboard.html" class="btn btn-icon" data-tip="Back to Dashboard">✕</a>
+        <div style="flex:1">
+            <div style="font-size:0.75rem;color:var(--text-secondary)">Quiz · <span id="quiz-category">JavaScript</span>
+            </div>
+            <div class="progress-bar" style="margin-top:4px;max-width:300px">
+                <div id="quiz-progress" class="progress-fill" style="width:0%"></div>
+            </div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--text-secondary)">Q <span id="q-num">1</span> / <span
+                id="quiz-total">10</span></div>
+    </div>
+
+    <div style="min-height:100vh;display:flex;padding-top:56px">
+
+        <!-- Question area -->
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:32px 24px">
+            <div style="width:100%;max-width:680px">
+
+                <!-- Timer + Category -->
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px"
+                    class="anim-fade-in-down">
+                    <span class="badge" id="question-diff">Easy</span>
+                    <div class="timer-ring" id="timer">
+                        <svg width="100" height="100" viewBox="0 0 100 100">
+                            <circle class="ring-bg" cx="50" cy="50" r="45" />
+                            <circle class="ring-fill" cx="50" cy="50" r="45" id="timer-ring-fill"
+                                stroke-dashoffset="0" />
+                        </svg>
+                        <div class="timer-text">
+                            <span class="timer-seconds" id="timer-seconds">20</span>
+                            <span class="timer-label">sec</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question -->
+                <div id="question-text" class="anim-fade-in-up"
+                    style="font-size:1.25rem;font-weight:600;margin-bottom:28px;line-height:1.5">Loading…</div>
+
+                <!-- Options -->
+                <div id="options-container" style="display:flex;flex-direction:column;gap:10px"></div>
+
+                <!-- Nav buttons -->
+                <div style="display:flex;justify-content:space-between;margin-top:28px;gap:16px">
+                    <button id="prev-btn" class="btn btn-secondary" disabled>← Previous</button>
+                    <button id="next-btn" class="btn btn-primary">Next →</button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Side panel (dot nav + stats) -->
+        <div style="width:220px;border-left:1px solid var(--glass-border);padding:80px 20px 24px;display:flex;flex-direction:column;gap:20px"
+            class="quiz-side-panel">
+            <div>
+                <div
+                    style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:12px">
+                    Questions</div>
+                <div id="dot-nav" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px"></div>
+                <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+                    <div style="display:flex;align-items:center;gap:4px;font-size:0.7rem;color:var(--text-muted)">
+                        <div style="width:10px;height:10px;border-radius:2px;background:rgba(124,58,237,0.5)"></div>
+                        Current
+                    </div>
+                    <div style="display:flex;align-items:center;gap:4px;font-size:0.7rem;color:var(--text-muted)">
+                        <div style="width:10px;height:10px;border-radius:2px;background:var(--green);opacity:0.6"></div>
+                        Answered
+                    </div>
+                </div>
+            </div>
+
+            <div class="card" style="padding:16px">
+                <div
+                    style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:12px">
+                    Tips</div>
+                <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.6">
+                    ⏱️ Timer auto-advances on expiry<br />
+                    🔢 Use dot nav to jump to any question<br />
+                    ✅ You can change your answer anytime
+                </div>
+            </div>
+
+            <button onclick="if(confirm('Quit quiz? Progress will be lost.')) window.location.href='dashboard.html'"
+                class="btn btn-secondary btn-sm" style="color:var(--red);border-color:rgba(239,68,68,0.3)">
+                ✕ Quit Quiz
+            </button>
+        </div>
+
+    </div>
+
+    <style>
+        @media(max-width:768px) {
+            .quiz-side-panel {
+                display: none !important;
+            }
+        }
+
+        /* Style dot nav items via id injected classes */
+        .dot-nav-item.current {
+            background: var(--purple) !important;
+            color: #fff !important;
+            border-color: var(--purple) !important;
+        }
+
+        .dot-nav-item.answered {
+            background: rgba(16, 185, 129, 0.3) !important;
+            border-color: var(--green) !important;
+            color: var(--green) !important;
+        }
+
+        .dot-nav-item.unanswered {
+            background: var(--glass);
+            color: var(--text-muted);
+        }
+    </style>
+
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/main.js"></script>
+    <script src="js/quiz.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Build dot nav after questions are ready (quiz.js does this)
+            setTimeout(() => { if (window.buildDotNav) buildDotNav(); }, 50);
+        });
+    </script>
+</body>
+
+</html>

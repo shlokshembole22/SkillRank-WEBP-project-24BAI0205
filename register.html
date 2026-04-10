@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Account – SkillRank</title>
+    <meta name="description" content="Create your free SkillRank account and start competing on quiz leaderboards." />
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+</head>
+
+<body>
+    <div class="bg-blob blob-1" style="top:-100px;right:-100px;left:auto"></div>
+    <div class="bg-blob blob-2" style="bottom:-100px;left:-100px;right:auto"></div>
+
+    <a href="index.html"
+        style="position:fixed;top:24px;left:24px;z-index:100;display:flex;align-items:center;gap:6px;font-size:0.85rem;color:var(--text-secondary);transition:0.2s"
+        onmouseenter="this.style.color='var(--text-primary)'" onmouseleave="this.style.color='var(--text-secondary)'">
+        ← Back to Home
+    </a>
+
+    <div class="auth-page">
+        <div class="auth-card anim-scale-in" style="max-width:480px">
+            <div class="auth-logo">
+                <div class="logo-icon flex-center" style="background:var(--gradient-main)">🏆</div>
+                <div style="font-family:var(--font-display);font-size:1.3rem;font-weight:700">SkillRank</div>
+            </div>
+
+            <h1 class="auth-title">Create your account 🚀</h1>
+            <p class="auth-sub">Join 2,500+ developers competing daily</p>
+
+            <form id="register-form" novalidate style="display:flex;flex-direction:column;gap:16px;margin-top:24px">
+                <!-- Name -->
+                <div class="form-group">
+                    <label class="form-label" for="name">Full Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input id="name" type="text" class="form-input" placeholder="Alex Johnson"
+                            autocomplete="name" />
+                    </div>
+                    <span class="form-error" id="name-error"></span>
+                </div>
+
+                <!-- Email -->
+                <div class="form-group">
+                    <label class="form-label" for="email">Email</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">✉️</span>
+                        <input id="email" type="email" class="form-input" placeholder="you@example.com"
+                            autocomplete="email" />
+                    </div>
+                    <span class="form-error" id="email-error"></span>
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input id="password" type="password" class="form-input" placeholder="Min. 6 characters" />
+                        <button type="button" class="input-toggle" id="toggle-password">👁️</button>
+                    </div>
+                    <div style="margin-top:8px">
+                        <div class="progress-bar" style="height:4px">
+                            <div id="strength-bar"
+                                style="height:4px;border-radius:999px;width:0%;transition:0.4s;background:transparent">
+                            </div>
+                        </div>
+                        <span id="strength-text" style="font-size:0.72rem;color:var(--text-muted)"></span>
+                    </div>
+                    <span class="form-error" id="pass-error"></span>
+                </div>
+
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <label class="form-label" for="confirm-password">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔐</span>
+                        <input id="confirm-password" type="password" class="form-input" placeholder="Repeat password" />
+                    </div>
+                    <span class="form-error" id="conf-error"></span>
+                </div>
+
+                <div style="font-size:0.78rem;color:var(--text-muted);line-height:1.5">
+                    By creating an account you agree to our <a href="#" style="color:var(--purple-light)">Terms of
+                        Service</a> and <a href="#" style="color:var(--purple-light)">Privacy Policy</a>.
+                </div>
+
+                <button type="submit" id="register-btn" class="btn btn-primary btn-full btn-lg">
+                    Create Account
+                </button>
+            </form>
+
+            <div class="auth-switch mt-3">
+                Already have an account? <a href="login.html">Sign in →</a>
+            </div>
+
+            <!-- Benefits -->
+            <div
+                style="display:flex;flex-direction:column;gap:8px;margin-top:24px;padding-top:20px;border-top:1px solid var(--glass-border)">
+                <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--text-secondary)">
+                    <span style="color:var(--green)">✓</span> Free forever — no credit card needed
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--text-secondary)">
+                    <span style="color:var(--green)">✓</span> Access to 50+ questions across 5 categories
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:0.8rem;color:var(--text-secondary)">
+                    <span style="color:var(--green)">✓</span> Full score history and leaderboard access
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+    <script src="js/main.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>
